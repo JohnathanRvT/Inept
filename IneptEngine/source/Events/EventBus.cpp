@@ -2,8 +2,6 @@
 
 #include <Logging/Log.h>
 
-#include <memory>
-
 namespace IneptEngine::Events {
 
     Subscription& EventBus::Subscribe(EventType type, EventHandler handler)

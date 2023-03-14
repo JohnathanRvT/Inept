@@ -23,9 +23,8 @@ extern IneptEngine::Core::Application* IneptEngine::Core::CreateApplication(Comm
  * code of the application.
  */
 
-IneptEngine::Core::Application* app;
-
 int main(int argc, char** argv) {
+	IneptEngine::Core::Application* app;
 	app = IneptEngine::Core::CreateApplication({argc, argv});
 
 	int returnCode = app->Run();

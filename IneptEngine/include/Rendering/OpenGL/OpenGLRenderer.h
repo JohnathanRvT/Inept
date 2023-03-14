@@ -6,9 +6,6 @@
 #include <Rendering/Primitives/Square.h>
 #include "OpenGLCamera.h"
 
-#include <glad/glad.h>
-
-
 namespace IneptEngine::Rendering {
     class OpenGLRenderer : public Renderer
     {

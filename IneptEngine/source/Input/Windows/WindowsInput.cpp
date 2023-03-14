@@ -1,8 +1,7 @@
 #ifdef INEPT_PLATFORM_WINDOWS
+#include <IneptEngine.h>
 
 #include <Input/Windows/WindowsInput.h>
-
-#include <IneptEngine.h>
 
 namespace IneptEngine::Input {
     WindowsInput::WindowsInput() : m_Window(NULL)
@@ -79,7 +78,6 @@ namespace IneptEngine::Input {
 
     LRESULT CALLBACK WindowsInput::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
-
         WindowsWindow* pWindow = nullptr;
         if (message == WM_NCCREATE)
         {
