@@ -5,7 +5,7 @@
 using namespace IneptEngine::Windowing;
 //#include <Scripting/Lua.h>
 //using namespace IneptEngine::Scripting;
-
+//Currently working on implementing main features before scripting
 
 namespace IneptEngine::Core {
 /**
@@ -55,13 +55,7 @@ public:
 		//InitLua();
 		LOG_INFO("Application started at {}", __TIME__);
 		m_window = Window::CreateIneptWindow(nullptr, 800, 600, "Inept Window");
-
-		m_scenewindow = Window::CreateIneptWindow(nullptr, 400, 600, "Scene Window");
-		m_window->AddChild(m_scenewindow);
-		m_scenewindow->CreateRenderer(RenderingAPI::OpenGL);
-
-		m_gamewindow = Window::CreateIneptWindow(m_window, 400, 600, "Game Window");
-
+		m_window->CreateRenderer(RenderingAPI::OpenGL);
 
 		std::unique_ptr<Subscription> sub =	EventBus::GetInstance().Subscribe(EventCategory::Input,[](Event* e) {
 			LOG_TRACE("Event : {}",e->ToString());
@@ -87,16 +81,12 @@ public:
 		EVENT_PUBLISH(AppUpdateEvent);
 
 		m_window->Update();
-		m_scenewindow->Update();
-		m_gamewindow->Update();
 
 		EVENT_PROCESS();
 		return 0;
 	}
 private:
 	IneptEngine::Windowing::Window* m_window;
-	IneptEngine::Windowing::Window* m_scenewindow;
-	IneptEngine::Windowing::Window* m_gamewindow;
 };
 /**
  * @fn Application* CreateApplication(CommandLineArgs args)
