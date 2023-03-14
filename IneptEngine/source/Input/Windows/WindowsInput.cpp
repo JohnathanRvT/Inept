@@ -2,11 +2,7 @@
 
 #include <Input/Windows/WindowsInput.h>
 
-#include <Logging/Log.h>
-using namespace IneptEngine::Logging;
-
-#include <iostream>
-#include <windowsx.h>
+#include <IneptEngine.h>
 
 namespace IneptEngine::Input {
     WindowsInput::WindowsInput() : m_Window(NULL)
@@ -173,10 +169,7 @@ namespace IneptEngine::Input {
         }
         case WM_CLOSE: {
             // Create an instance of the event to publish
-            std::unique_ptr<WindowCloseEvent> event = std::make_unique<WindowCloseEvent>();
-
-            // Publish the event to the event buffer
-            EventBus::GetInstance().Publish(std::move(event));
+            EVENT_PUBLISH_NOW(WindowCloseEvent);
 
             DestroyWindow(m_Window->GetHandle());
         }

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Renderable.h"
+#include <Rendering/Renderable.h>
 
 namespace IneptEngine::Rendering {
         class Polygon : public Renderable {

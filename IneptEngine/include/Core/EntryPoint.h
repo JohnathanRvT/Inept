@@ -27,8 +27,10 @@ IneptEngine::Core::Application* app;
 
 int main(int argc, char** argv) {
 	app = IneptEngine::Core::CreateApplication({argc, argv});
-	return app->Run();
+
+	int returnCode = app->Run();
 
 	delete app;
 
+	return returnCode;
 }

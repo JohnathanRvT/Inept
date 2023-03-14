@@ -1,10 +1,7 @@
 #pragma once
 
+#include <iepch.h>
 #include <Input/Keyboard.h>
-
-#include <map>
-#include <vector>
-#include <functional>
 
 namespace IneptEngine::Input
 {

@@ -1,11 +1,7 @@
 #pragma once
 
 #ifdef INEPT_PLATFORM_WINDOWS
-#include <iepch.h>
-
 #include <Windowing/Window.h>
-
-#include <Windows.h>
 
 namespace IneptEngine::Windowing
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include <IneptEngine.h>
+#include <Core/EntryPoint.h>
 
 namespace IneptEditor {
 	/**

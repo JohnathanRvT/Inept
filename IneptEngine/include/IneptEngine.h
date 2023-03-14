@@ -1,9 +1,6 @@
 #pragma once
 
-#include "iepch.h" //Precompiled header
+#include <Events/EventBus.h>
 
-#include "Core/Application.h"
-
-//Entry point
-#include "Core/EntryPoint.h"
-// Entry point
+#include <Logging/Log.h>
+using namespace IneptEngine::Logging;

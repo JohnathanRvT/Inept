@@ -1,12 +1,11 @@
 #pragma once
 
+#include <IneptEngine.h>
+
 #include <Windowing/Window.h>
 
 #ifdef INEPT_PLATFORM_WINDOWS
-#define WIN32_LEAN_AND_MEAN
 #include <Windowing/Windows/WindowsWindow.h>
-#include <Windows.h>
-#include <wingdi.h>
 #elif INEPT_PLATFORM_LINUX
 #include <X11/Xlib.h>
 #include <GL/glx.h>

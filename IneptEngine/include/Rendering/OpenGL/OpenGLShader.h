@@ -1,13 +1,12 @@
 #pragma once
 
+#include <iepch.h>
+
+#include <IneptEngine.h>
+
 #include <glad/glad.h>
-
-#include <string>
-#include <fstream>
-
 #include <glm.hpp>
 
-#include <Logging/Log.h>
 namespace IneptEngine::Rendering {
 	class OpenGLShader //: public Shader
 	{

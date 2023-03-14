@@ -6,21 +6,20 @@
 
 namespace IneptEngine::Events {
 
-    std::unique_ptr<Subscription> EventBus::Subscribe(EventType type, EventHandler handler)
+    Subscription& EventBus::Subscribe(EventType type, EventHandler handler)
     {
         std::lock_guard<std::mutex> lock(m_subscriptionsMutex);
-        auto subscription = std::make_unique<Subscription>(type, EventCategory::None, handler);
-        m_subscriptions.emplace_back(std::move(subscription));
-        LOG_TRACE("Subscribed!");
-        return subscription;
+        Subscription* subscription = new Subscription(type, EventCategory::None, handler);
+        m_subscriptions.emplace_back(subscription);
+        return *subscription;
     }
 
-    std::unique_ptr<Subscription> EventBus::Subscribe(EventCategory category, EventHandler handler)
+    Subscription& EventBus::Subscribe(EventCategory category, EventHandler handler)
     {
         std::lock_guard<std::mutex> lock(m_subscriptionsMutex);
-        auto subscription = std::make_unique<Subscription>(EventType::None, category, handler);
-        m_subscriptions.emplace_back(std::move(subscription));
-        return subscription;
+        Subscription* subscription = new Subscription(EventType::None, category, handler);
+        m_subscriptions.emplace_back(subscription);
+        return *subscription;
     }
 
     bool EventBus::IsSubscribed(EventType type, EventHandler handler)
@@ -45,27 +44,27 @@ namespace IneptEngine::Events {
         }
     }
 
-    void EventBus::Publish(std::unique_ptr<Event> event)
+    void EventBus::Publish(Event* event)
     {
         std::lock_guard<std::mutex> lock(m_eventsMutex);
         m_events.emplace_back(std::move(event));
     }
 
-    void EventBus::PublishNow(std::unique_ptr<Event> event)
+    void EventBus::PublishNow(Event* event)
     {
         std::lock_guard<std::mutex> lock(m_subscriptionsMutex);
         for (const auto& subscription : m_subscriptions) {
             if ((subscription->type == EventType::None) && ((subscription->category & event->GetCategory()) != EventCategory::None) ||
                 (subscription->type == event->GetType()) && ((subscription->category & event->GetCategory()) == EventCategory::None))
             {
-                subscription->handler(event.get());
+                subscription->handler(event);
             }
         }
     }
 
     void EventBus::ProcessEvents()
     {
-        std::vector<std::unique_ptr<Event>> events;
+        std::vector<Event*> events;
         {
             std::lock_guard<std::mutex> lock(m_eventsMutex);
             std::lock_guard<std::mutex> lock2(m_subscriptionsMutex);
@@ -74,12 +73,13 @@ namespace IneptEngine::Events {
             }
             events = std::move(m_events);
         }
+
         for (const auto& event : events) {
             for (const auto& subscription : m_subscriptions) {
                 if ((subscription->type == EventType::None) && ((subscription->category & event->GetCategory()) != EventCategory::None) ||
                     (subscription->type == event->GetType()) && ((subscription->category & event->GetCategory()) == EventCategory::None))
                 {
-                    subscription->handler(event.get());
+                    subscription->handler(event);
                 }
             }
         }

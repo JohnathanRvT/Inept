@@ -1,11 +1,15 @@
 #include "IneptEditor.h"
 
+#include <Logging/Log.h>
+
+#include <Events/EventBus.h>
+
 namespace IneptEditor {
-	IneptEditorApp::IneptEditorApp(IneptEngine::Core::CommandLineArgs args):Application(args)
+	IneptEditorApp::IneptEditorApp(IneptEngine::Core::CommandLineArgs args) :Application(args)
 	{
 		LOG_INFO("Inept Editor Application started at {}", __TIME__);
-		IneptEngine::Events::EventBus::GetInstance().Subscribe(EventType::WindowClose, [this](Event* e) {
-			//LOG_INFO("Inept Editor exit loop");
+		EVENT_SUBSCRIBE(WindowClose, [this](IneptEngine::Events::Event* e) {
+			LOG_INFO("Inept Editor exit loop");
 			m_exit = true;
 			});
 	}

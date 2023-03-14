@@ -1,12 +1,15 @@
 #pragma once
 
 #include <iepch.h>
+#include <IneptEngine.h>
+
 #include <Windowing/Window.h>
 using namespace IneptEngine::Windowing;
-//#include <Scripting/Lua.h>
-//using namespace IneptEngine::Scripting;
-//Currently working on implementing main features before scripting
 
+/* Currently working on implementing main features before scripting
+#include <Scripting/Lua.h>
+using namespace IneptEngine::Scripting;
+*/
 namespace IneptEngine::Core {
 /**
  * @struct CommandLineArgs
@@ -53,13 +56,11 @@ public:
 	 */
 	Application(CommandLineArgs args) {
 		//InitLua();
-		LOG_INFO("Application started at {}", __TIME__);
+
+		LOG_INFO("Application started at {}", TIME_NOW);
+
 		m_window = Window::CreateIneptWindow(nullptr, 800, 600, "Inept Window");
 		m_window->CreateRenderer(RenderingAPI::OpenGL);
-
-		std::unique_ptr<Subscription> sub =	EventBus::GetInstance().Subscribe(EventCategory::Input,[](Event* e) {
-			LOG_TRACE("Event : {}",e->ToString());
-			});
 	}
 
 	/**
@@ -69,6 +70,7 @@ public:
 	 */
 	virtual ~Application() {
 		delete m_window;
+
 		//CloseLua();
 	}
 
@@ -88,6 +90,7 @@ public:
 private:
 	IneptEngine::Windowing::Window* m_window;
 };
+
 /**
  * @fn Application* CreateApplication(CommandLineArgs args)
  * @brief Creates a new Application object

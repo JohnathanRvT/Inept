@@ -245,11 +245,12 @@ namespace IneptEngine::Input {
 
 	private:
 		std::vector<bool> m_keyState;
+
+
 #define NAMEKEY( code, strId ) { code, strId }
 #define NAMEKEY2( code ) { KEY_##code, #code }
 
 #define ALIASKEY( alias, code ) { KEY_##code, alias, "" }
-
 		// names not in this list can either be lowercase ascii, or '0xnn' hex sequences
 		inline static const std::unordered_map<Key, std::string> keynames =
 		{
@@ -432,10 +433,8 @@ namespace IneptEngine::Input {
 			//{ KEY_NONE, NULL }//, NULL }
 		};
 
-	//	//	MouseButton btnCodes[10] = {
-		//		// --
-
-	//	//		NAMEKEY(MOUSE1, "Mouse Button 1"),
+		//	MouseButton btnCodes[10] = {
+		//		NAMEKEY(MOUSE1, "Mouse Button 1"),
 		//		NAMEKEY(MOUSE2, "Mouse Button 2"),
 		//		NAMEKEY(MOUSE3, "Mouse Button 3"),
 		//		NAMEKEY(MOUSE4, "Mouse Button 4"),
@@ -444,7 +443,7 @@ namespace IneptEngine::Input {
 		//		NAMEKEY(MOUSE7, "Mouse Button 7"),
 		//		NAMEKEY(MOUSE8, "Mouse Button 8"),
 
-	//	//		NAMEKEY(MWHEELDOWN, "Mouse Wheel Down"),
+		//		NAMEKEY(MWHEELDOWN, "Mouse Wheel Down"),
 		//		NAMEKEY(MWHEELUP, "Mouse Wheel Up"),
 		//	};
 	   // };

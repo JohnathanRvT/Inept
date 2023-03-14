@@ -3,9 +3,11 @@
 #include <Rendering/Renderer.h>
 #include <Rendering/OpenGl/OpenGLContext.h>
 
-#include <glad/glad.h>
-#include <Rendering/Square.h>
+#include <Rendering/Primitives/Square.h>
 #include "OpenGLCamera.h"
+
+#include <glad/glad.h>
+
 
 namespace IneptEngine::Rendering {
     class OpenGLRenderer : public Renderer
@@ -29,11 +31,11 @@ namespace IneptEngine::Rendering {
 			square->Bind();
 			//
 
-			std::unique_ptr<Subscription> sub =	EventBus::GetInstance().Subscribe(EventType::KeyPressed,[this](Event* e) {
+			EVENT_SUBSCRIBE(KeyPressed,[this](Events::Event* e) {
 				OnKeyPressed(e);
 			});
 
-			std::unique_ptr<Subscription> resizeSub = EventBus::GetInstance().Subscribe(EventType::WindowResize, [this](Event* e) {
+			EVENT_SUBSCRIBE(WindowResize, [this](Events::Event* e) {
 				OnWindowResize(e);
 			});
 			camera = OpenGLCamera();
@@ -56,8 +58,8 @@ namespace IneptEngine::Rendering {
 
         }
 
-		void OnWindowResize(Event* e) {
-			WindowResizeEvent* resizeEvent = static_cast<WindowResizeEvent*>(e);
+		void OnWindowResize(Events::Event* e) {
+			Events::WindowResizeEvent* resizeEvent = static_cast<Events::WindowResizeEvent*>(e);
 			if (resizeEvent->GetWidth() != 0 && resizeEvent->GetHeight() != 0) {
 
 				glViewport(0, 0, resizeEvent->GetWidth(), resizeEvent->GetHeight());
@@ -67,8 +69,8 @@ namespace IneptEngine::Rendering {
 			}
 		}
 
-		void OnKeyPressed(Event* e) {
-				KeyPressedEvent* keyevent = static_cast<KeyPressedEvent*>(e);
+		void OnKeyPressed(Events::Event* e) {
+			Events::KeyPressedEvent* keyevent = static_cast<Events::KeyPressedEvent*>(e);
 				if (keyevent->GetKey() == Keyboard::Key::KEY_W)
 				{
 					camera.MoveUp(1.0f);

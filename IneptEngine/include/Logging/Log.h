@@ -1,10 +1,6 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include <format>
-#include <iostream>
-#include <chrono>
+#include <iepch.h>
 
 #include "LogEnums.h"
 

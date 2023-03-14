@@ -6,7 +6,6 @@
 using namespace IneptEngine::Windowing;
 
 namespace IneptEngine::Input {
-
 	class WindowsInput : public InputManager
 	{
 	public:
@@ -26,11 +25,14 @@ namespace IneptEngine::Input {
 	private:
 		void HandleWindowsMessage(WindowsWindow* window, UINT message, WPARAM wParam, LPARAM lParam);
 		void SetWindow(WindowsWindow* window);
+
 		WindowsWindow* m_Window;
+
 		std::vector<std::function<void(Keyboard::Key)>> m_allKeyCallbacks;
 		std::map<int, std::vector<std::function<void(int)>>> m_keyCallbacks;
 		std::map<int, std::vector<std::function<void(int)>>> m_mouseButtonCallbacks;
 		std::vector<std::function<void(int, int)>> m_mouseMoveCallbacks;
+
 		Keyboard m_keyBoard;
 	};
 }

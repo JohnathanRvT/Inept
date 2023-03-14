@@ -1,11 +1,11 @@
 #pragma once
 
+#include <iepch.h>
+
 #include <Input/Input.h>
 using namespace IneptEngine::Input;
 #include <Rendering/Renderer.h>
 using namespace IneptEngine::Rendering;
-
-#include <string>
 
 namespace IneptEngine::Windowing
 {

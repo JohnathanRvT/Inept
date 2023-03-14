@@ -1,5 +1,4 @@
 #include "Rendering/OpenGL/OpenGLContext.h"
-#include <Logging/Log.h>
 
 #include <glad/glad.h>
 

@@ -1,9 +1,10 @@
 #pragma once
 
-#include <Rendering/Polygon.h>
+#include <iepch.h>
+
+#include <Rendering/Primitives/Polygon.h>
 #include <Rendering/OpenGl/OpenGLShader.h>
 
-#include <vector>
 #include <glad/glad.h>
 
 namespace IneptEngine::Rendering {

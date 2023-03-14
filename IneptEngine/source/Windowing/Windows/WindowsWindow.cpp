@@ -1,13 +1,8 @@
 #ifdef INEPT_PLATFORM_WINDOWS
+#include <IneptEngine.h>
+
 #include <Windowing/Windows/WindowsWindow.h>
-
 #include <Input/Windows/WindowsInput.h>
-using namespace IneptEngine::Input;
-
-#include <Rendering/Renderer.h>
-using namespace IneptEngine::Rendering;
-
-#include <memory>
 
 namespace IneptEngine::Windowing
 {

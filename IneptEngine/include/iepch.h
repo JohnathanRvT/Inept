@@ -1,27 +1,42 @@
-//#define INEPT_PLATFORM_WINDOWS
-//	#include <Windows.h>
-//#endif // INEPT_PLATFORM_WINDOWS
 #pragma once
 
-#include <sstream>
+#ifdef INEPT_PLATFORM_WINDOWS
+#define WIN32_LEAN_AND_MEAN      // Exclude rarely-used stuff from Windows headers
+#include <Windows.h>
+#include <Windowsx.h>
+#include <wingdi.h>
+#endif // INEPT_PLATFORM_WINDOWS
+
 #include <functional>
+#include <memory>
+
 #include <iostream>
-#include <chrono>
-#include <ctime>
+#include <sstream>
+#include <fstream>
 #include <string>
+#include <format>
+
 #include <mutex>
+
 #include <vector>
+#include <map>
 
-#include <Logging/Log.h>
-using namespace IneptEngine::Logging;
+#include <ctime>
+#include <chrono>
 
-#include <Events/EventBus.h>
-#include <Events/ApplicationEvent.h>
-#include <Events/WindowEvent.h>
-#include <Events/KeyboardEvent.h>
-#include <Events/MouseEvent.h>
+#include <debugapi.h>
 
-using namespace IneptEngine::Events;
+
+//#include <Logging/Log.h>
+//using namespace IneptEngine::Logging;
+
+//#include <Events/EventBus.h>
+//#include <Events/ApplicationEvent.h>
+//#include <Events/WindowEvent.h>
+//#include <Events/KeyboardEvent.h>
+//#include <Events/MouseEvent.h>
+//using namespace IneptEngine::Events;
+
 //
 //#define INEPT_VERBOSEINFO(msg) Inept::Logging::Log::logMessage(Inept::Logging::LogLevel::LOGINFO, msg, true)
 //#define INEPT_VERBOSETRACE(msg) Inept::Logging::Log::logMessage(Inept::Logging::LogLevel::LOGTRACE, msg, true)
