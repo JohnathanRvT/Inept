@@ -2,9 +2,6 @@
 
 #include <Events/EventBus.h>
 
-#include <chrono>
-#include <format>
-
 #define TIME_NOW std::chrono::system_clock::now()
 
 namespace IneptEngine::Events {
@@ -54,8 +51,6 @@ namespace IneptEngine::Events {
 	*/
 	class Event {
 	public:
-
-
 		/**
 		  @brief Performs a bitwise OR operation between two EventCategory values and returns the result.
 		 */
@@ -94,6 +89,7 @@ namespace IneptEngine::Events {
 		EventCategory GetCategory() const { return m_category; }
 
 		/**
+		@fn std::string GetTime() const
 		@brief Returns the timestamp of the event as a string.
 		@return The timestamp of the event as a string.
 		*/
@@ -117,13 +113,13 @@ namespace IneptEngine::Events {
 			return ss.str();
 		}
 
-			/**
-			@fn std::string TypeToString(EventType type)
-			@brief Converts an event type to a string representation
-			@param type The event type to convert
-			@return A string representation of the event type
-			*/
-			static std::string TypeToString(EventType type) {
+		/**
+		@fn std::string TypeToString(EventType type)
+		@brief Converts an event type to a string representation
+		@param type The event type to convert
+		@return A string representation of the event type
+		*/
+		static std::string TypeToString(EventType type) {
 			switch (type) {
 			case EventType::None:
 				return "None";

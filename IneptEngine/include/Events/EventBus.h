@@ -1,26 +1,27 @@
 #pragma once 
 
-#include <Events/Event.h>
+#include <iepch.h>
 
-#include <vector>
-#include <mutex>
-#include <functional>
-#include <memory>
+#include <Events/Event.h>
+#include <Events/ApplicationEvent.h>
+#include <Events/WindowEvent.h>
+#include <Events/KeyboardEvent.h>
+#include <Events/MouseEvent.h>
 
 #define EVENT_SUBSCRIBE(eventType, eventHandler) \
-    EventBus::GetInstance().Subscribe(eventType,std::bind(&eventHandler, std::placeholders::_1))
+    IneptEngine::Events::EventBus::GetInstance().Subscribe(IneptEngine::Events::EventType::eventType,std::bind(eventHandler, std::placeholders::_1))
 
 #define EVENT_SUBSCRIBE_CATEGORY(eventCategory, eventHandler) \
-    EventBus::GetInstance().Subscribe<eventCategory>(std::bind(&eventHandler, std::placeholders::_1))
+    IneptEngine::Events::EventBus::GetInstance().Subscribe<IneptEngine::Events::EventCategory::eventCategory>(std::bind(eventHandler, std::placeholders::_1))
 
 #define EVENT_PUBLISH(eventType, ...) \
-    EventBus::GetInstance().Publish(std::make_unique<eventType>(__VA_ARGS__))
+    IneptEngine::Events::EventBus::GetInstance().Publish(new IneptEngine::Events::eventType(__VA_ARGS__))
 
 #define EVENT_PUBLISH_NOW(eventType, ...) \
-    EventBus::GetInstance().PublishNow(std::make_unique<eventType>(__VA_ARGS__))
+    IneptEngine::Events::EventBus::GetInstance().PublishNow(new IneptEngine::Events::eventType(__VA_ARGS__))
 
 #define EVENT_PROCESS() \
-    EventBus::GetInstance().ProcessEvents()
+    IneptEngine::Events::EventBus::GetInstance().ProcessEvents()
 
 namespace IneptEngine::Events
 {
@@ -33,6 +34,7 @@ namespace IneptEngine::Events
         EventType type;
         EventCategory category;
         EventHandler handler;
+        Subscription(EventType type, EventCategory category, EventHandler handler):type(type),category(category),handler(handler) {}
 
         bool operator==(const Subscription& other) const {
             return (type == other.type) && (category == other.category) && (handler.target<EventHandler>() == other.handler.target<EventHandler>());
@@ -69,9 +71,9 @@ namespace IneptEngine::Events
          *
          * @param type The event type to subscribe to
          * @param handler The event handler function
-         * @return A subscription object that can be used to unsubscribe the event handler
+         * @return A reference to a subscription that can be used to unsubscribe the event handler
          */
-        std::unique_ptr<Subscription> Subscribe(EventType type, EventHandler handler);
+        Subscription& Subscribe(EventType type, EventHandler handler);
 
         /**
          * @brief Subscribes a function to an event category
@@ -81,9 +83,9 @@ namespace IneptEngine::Events
          *
          * @param category The event category to subscribe to
          * @param handler The event handler function
-         * @return A subscription object that can be used to unsubscribe the event handler
+         * @return A reference to a subscription object that can be used to unsubscribe the event handler
          */
-        std::unique_ptr<Subscription> Subscribe(EventCategory category, EventHandler handler);
+        Subscription& Subscribe(EventCategory category, EventHandler handler);
 
         /**
          * @brief Check if function has been subscribed to an event type
@@ -113,7 +115,7 @@ namespace IneptEngine::Events
          *
          * @param event The event to publish
          */
-        void Publish(std::unique_ptr<Event> event);
+        void Publish(Event* event);
 
         /**
          * @brief Publishes an event to the subscriptions now
@@ -123,7 +125,7 @@ namespace IneptEngine::Events
          *
          * @param event The event to publish
          */
-        void PublishNow(std::unique_ptr<Event> event);
+        void PublishNow(Event* event);
 
         /**
          * @brief Process the events in the event buffer
@@ -143,8 +145,10 @@ namespace IneptEngine::Events
          * @brief Default destructor
          */
         ~EventBus() = default;
-        std::vector<std::unique_ptr<Event>> m_events;
-        std::vector<std::unique_ptr<Subscription>> m_subscriptions;
+
+        std::vector<Event*> m_events;
+        std::vector<Subscription*> m_subscriptions;
+
         std::mutex m_subscriptionsMutex;
         std::mutex m_eventsMutex;
     };
