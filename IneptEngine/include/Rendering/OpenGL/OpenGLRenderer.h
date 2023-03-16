@@ -29,6 +29,7 @@ namespace IneptEngine::Rendering {
 			//
 
 			EVENT_SUBSCRIBE(KeyPressed,[this](Events::Event* e) {
+				//LOG_DEBUG("key pressed");
 				OnKeyPressed(e);
 			});
 
@@ -61,8 +62,8 @@ namespace IneptEngine::Rendering {
 
 				glViewport(0, 0, resizeEvent->GetWidth(), resizeEvent->GetHeight());
 				camera.SetAspectRatio(static_cast<float>(resizeEvent->GetWidth()) / static_cast<float>(resizeEvent->GetHeight()));
-				LOG_DEBUG("Aspect Ratio: {}", static_cast<float>(resizeEvent->GetWidth()) / static_cast<float>(resizeEvent->GetHeight()));
-				LOG_DEBUG("Width,Height: {},{}",resizeEvent->GetWidth() , resizeEvent->GetHeight());
+				//LOG_DEBUG("Aspect Ratio: {}", static_cast<float>(resizeEvent->GetWidth()) / static_cast<float>(resizeEvent->GetHeight()));
+				//LOG_DEBUG("Width,Height: {},{}",resizeEvent->GetWidth() , resizeEvent->GetHeight());
 			}
 		}
 

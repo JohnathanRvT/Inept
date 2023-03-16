@@ -12,29 +12,34 @@
     IneptEngine::Events::EventBus::GetInstance().Subscribe(IneptEngine::Events::EventType::eventType,std::bind(eventHandler, std::placeholders::_1))
 
 #define EVENT_SUBSCRIBE_CATEGORY(eventCategory, eventHandler) \
-    IneptEngine::Events::EventBus::GetInstance().Subscribe<IneptEngine::Events::EventCategory::eventCategory>(std::bind(eventHandler, std::placeholders::_1))
+    IneptEngine::Events::EventBus::GetInstance().Subscribe(IneptEngine::Events::EventCategory::eventCategory, std::bind(eventHandler, std::placeholders::_1))
 
 #define EVENT_PUBLISH(eventType, ...) \
-    IneptEngine::Events::EventBus::GetInstance().Publish(new IneptEngine::Events::eventType(__VA_ARGS__))
+    IneptEngine::Events::EventBus::GetInstance().Publish(IneptEngine::Events::EventPtr(new IneptEngine::Events::eventType(__VA_ARGS__)))
 
 #define EVENT_PUBLISH_NOW(eventType, ...) \
-    IneptEngine::Events::EventBus::GetInstance().PublishNow(new IneptEngine::Events::eventType(__VA_ARGS__))
+    IneptEngine::Events::EventBus::GetInstance().PublishNow(IneptEngine::Events::EventPtr(new IneptEngine::Events::eventType(__VA_ARGS__)))
 
 #define EVENT_PROCESS() \
     IneptEngine::Events::EventBus::GetInstance().ProcessEvents()
+#define ALL_CATEGORIES ( IneptEngine::Events::EventCategory)\
+    ( IneptEngine::Events::EventCategory::Application |  IneptEngine::Events::EventCategory::Window\
+    | IneptEngine::Events::EventCategory::Input |  IneptEngine::Events::EventCategory::Keyboard\
+    | IneptEngine::Events::EventCategory::Mouse |  IneptEngine::Events::EventCategory::MouseButton)
 
 namespace IneptEngine::Events
 {
     /**
     * @brief Represents a subscription to an event type or category
     */
+    using EventPtr = std::unique_ptr<Event>;
     using EventHandler = std::function<void(Event*)>;
     struct Subscription {
     public:
         EventType type;
         EventCategory category;
         EventHandler handler;
-        Subscription(EventType type, EventCategory category, EventHandler handler):type(type),category(category),handler(handler) {}
+        Subscription(EventType type, EventCategory category, EventHandler handler) :type(type), category(category), handler(handler) {}
 
         bool operator==(const Subscription& other) const {
             return (type == other.type) && (category == other.category) && (handler.target<EventHandler>() == other.handler.target<EventHandler>());
@@ -115,7 +120,7 @@ namespace IneptEngine::Events
          *
          * @param event The event to publish
          */
-        void Publish(Event* event);
+        void Publish(EventPtr event);
 
         /**
          * @brief Publishes an event to the subscriptions now
@@ -125,7 +130,7 @@ namespace IneptEngine::Events
          *
          * @param event The event to publish
          */
-        void PublishNow(Event* event);
+        void PublishNow(EventPtr event);
 
         /**
          * @brief Process the events in the event buffer
@@ -146,7 +151,7 @@ namespace IneptEngine::Events
          */
         ~EventBus() = default;
 
-        std::vector<Event*> m_events;
+        std::vector<EventPtr> m_events;
         std::vector<Subscription*> m_subscriptions;
 
         std::mutex m_subscriptionsMutex;

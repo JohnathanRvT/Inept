@@ -2,15 +2,16 @@
 
 namespace IneptEngine::Logging
 {
-	std::ostream* Log::output = &std::cout;
-
-	void Log::Init(std::ostream* output)
+	std::ostream* Log::output = &std::cout; // default output stream is std::cout
+	 
+	void Log::Init(std::ostream &output)
 	{
-		Log::output = output;
+		Log::output = &output;
 	}
 
-	void Log::setOutput(std::ostream* output) {
-		Log::output = output;
+	void Log::setOutput(std::ostream& output)
+	{
+		Log::output = &output;
 	}
 
 	void Log::logMessage(LogLevel level, const std::string& message, bool isVerbose, std::string func, std::string file, int line) {

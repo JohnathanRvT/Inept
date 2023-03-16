@@ -42,27 +42,27 @@ namespace IneptEngine::Events {
         }
     }
 
-    void EventBus::Publish(Event* event)
+    void EventBus::Publish(EventPtr event)
     {
         std::lock_guard<std::mutex> lock(m_eventsMutex);
         m_events.emplace_back(std::move(event));
     }
 
-    void EventBus::PublishNow(Event* event)
+    void EventBus::PublishNow(EventPtr event)
     {
         std::lock_guard<std::mutex> lock(m_subscriptionsMutex);
         for (const auto& subscription : m_subscriptions) {
             if ((subscription->type == EventType::None) && ((subscription->category & event->GetCategory()) != EventCategory::None) ||
                 (subscription->type == event->GetType()) && ((subscription->category & event->GetCategory()) == EventCategory::None))
             {
-                subscription->handler(event);
+                subscription->handler(event.get());
             }
         }
     }
 
     void EventBus::ProcessEvents()
     {
-        std::vector<Event*> events;
+        std::vector<EventPtr> events;
         {
             std::lock_guard<std::mutex> lock(m_eventsMutex);
             std::lock_guard<std::mutex> lock2(m_subscriptionsMutex);
@@ -77,7 +77,7 @@ namespace IneptEngine::Events {
                 if ((subscription->type == EventType::None) && ((subscription->category & event->GetCategory()) != EventCategory::None) ||
                     (subscription->type == event->GetType()) && ((subscription->category & event->GetCategory()) == EventCategory::None))
                 {
-                    subscription->handler(event);
+                    subscription->handler(event.get());
                 }
             }
         }
