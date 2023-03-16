@@ -1,8 +1,38 @@
 #pragma once
+
 #include <IneptEngine.h>
 #include <Core/EntryPoint.h>
+#include <Core/LayerStack.h>
+
+#include <typeinfo>  //for 'typeid' to work  
 
 namespace IneptEditor {
+
+	class EditorLayer : public IneptEngine::Core::Layer
+	{
+	public:
+		
+		virtual void OnAttach() override {
+			LOG_DEBUG("Attach");
+		}
+
+		virtual void OnDetach() override {
+			LOG_DEBUG("Detach");
+		}
+
+		virtual void OnUpdate(float deltaTime) override {
+			LOG_DEBUG("Update");
+		}
+
+		virtual void OnRender() override {
+			LOG_DEBUG("Render");
+		}
+
+		virtual void OnEvent(IneptEngine::Events::Event* event) override {
+			//LOG_DEBUG("{}", event->ToString());
+		}
+	};
+
 	/**
 	 * @class The main editor application class.
 	 * @brief This class derives from the IneptEngine::Core::Application class and serves as the entry point for the editor.
@@ -22,14 +52,6 @@ namespace IneptEditor {
 		 * This destructor cleans up any resources used by the EditorApp object.
 		 */
 		~IneptEditorApp();
-		/**
-		* @fn void Run()
-		* @brief Runs the EditorApp object
-		* This function is the main loop of the EditorApp object, which should continue until the application is closed while calling the base Run every frame.
-		*/
-		int Run() override;
-	protected:
-		bool m_exit = false;
 	};
 } // namespace IneptEditor
 

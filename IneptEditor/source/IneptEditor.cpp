@@ -8,18 +8,7 @@ namespace IneptEditor {
 	IneptEditorApp::IneptEditorApp(IneptEngine::Core::CommandLineArgs args) :Application(args)
 	{
 		LOG_INFO("Inept Editor Application started at {}", __TIME__);
-		EVENT_SUBSCRIBE(WindowClose, [this](IneptEngine::Events::Event* e) {
-			LOG_INFO("Inept Editor exit loop");
-			m_exit = true;
-			});
-	}
-
-	int IneptEditorApp::Run() {
-		while (!m_exit)
-		{
-			IneptEngine::Core::Application::Run();
-		}
-		return 1;
+		PushLayer(new EditorLayer());
 	}
 
 	IneptEditorApp::~IneptEditorApp()

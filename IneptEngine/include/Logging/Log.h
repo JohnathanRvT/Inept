@@ -27,9 +27,9 @@
 #define LOG_ERROR(...) \
     IneptEngine::Logging::Log::logMessage( \
         IneptEngine::Logging::LogLevel::LOGERROR, \
-        std::format(__VA_ARGS__)\
-		);\
-		DebugBreak()
+        std::format(__VA_ARGS__),\
+		true)//;\
+		//DebugBreak()
 
 namespace IneptEngine::Logging
 {
@@ -42,7 +42,7 @@ namespace IneptEngine::Logging
 		 * @fn static void Init();
 		 * @brief Initializes Log class
 		 */
-		static void Init(std::ostream* output = &std::cout);
+		static void Init(std::ostream &output = std::cout);
 		/**
 		 * @fn static void logMessage(LogLevel level, const std::string& message, bool isVerbose = false, std::string func = __builtin_FUNCTION(), std::string file = __builtin_FILE(), int line = __builtin_LINE());
 		 * @brief Logs a message with the appropriate color based on the logging level.
@@ -68,7 +68,7 @@ namespace IneptEngine::Logging
 		* or a stringstream.
 		* @param output The output stream to redirect the log messages to
 		*/
-		static void setOutput(std::ostream* output);
+		static void setOutput(std::ostream& output);
 	private:
 		/**
 		 * @fn static std::string toString(LogLevel level);
